@@ -7,12 +7,12 @@ Write a computer program using the programming language of your choice to interp
 ## Running Instructions
 
 Install numpy module (if not yet installed):
-` $ pip install numpy `
+> ` $ pip install numpy `
 
 Run python program:
-` $ python3 main.py `
+> ` $ python3 main.py `
 
 Input n size of nxn table:
-` $ 100 `
+> ` $ 100 `
 
 :cry:
