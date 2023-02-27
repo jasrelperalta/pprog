@@ -1,19 +1,13 @@
 import numpy as np
 import random
-# n = 5
 
-np.set_printoptions(formatter={'float': '{: 0.1f}'.format})
+np.set_printoptions(formatter={'float': '{: 0.5f}'.format})
 
 n = int(input("enter size: "))
 n += 1
 dist = 10
 
 mat = np.zeros((n,n), dtype = float)
-
-# for i in range(n):
-#     for j in range(n):
-#         if i % 10 == 0 and j % 10 == 0:
-#             mat[i][j] = random.uniform(0.0, 1000.0)
 
 # testing stuff
 # TODO: use area weighted and change conditions after testing stuff
@@ -22,10 +16,13 @@ for i in range(n):
         if i % dist == 0 and j % dist == 0:
             mat[i][j] = random.uniform(0.0, 1000.0)
 
+# for given example at exer file
 # mat[0][0] = 200
 # mat[0][10] = 250
 # mat[10][0] = 280
 # mat[10][10] = 300
+
+
 
 # matrix [row][col]
 
@@ -52,6 +49,7 @@ def get_row_val(i,j):
     y2 = dp[1][1]
     res = fcc(x1,y1,x2,y2,x)
     mat[i][j] = res
+
 
 # interpolate cols
 def get_col_val(i,j):
