@@ -25,13 +25,13 @@ for i in range(n):
 # mat[10][0] = 280
 # mat[10][10] = 300
 
+# interpolate function
 def terrain_inter(mat):
     for i in range(0,n):
         for j in range(0,n):
             if mat[i][j] != 0:
                 continue
             if (i % dist == 0):
-                # print(mat[i][j], i, j)
                 get_row_val(i,j)
     for i in range(0,n):
         for j in range(0,n):
@@ -39,39 +39,40 @@ def terrain_inter(mat):
                 get_col_val(i,j)
     print("\n")
 
+
+# dp array format:
+# dp = [[x1,y1][x2,y2]]
+
 # interpolate rows with random values
 def get_row_val(i,j):
     dp = get_datapoints_row(i,j)
-    # dp = [[x1,y1][x2,y2]]
+    x = j               # j -> row
     x1 = dp[0][0]
     x2 = dp[1][0]
-    x = j
     y1 = dp[0][1]
     y2 = dp[1][1]
     res = fcc(x1,y1,x2,y2,x)
     mat[i][j] = res
 
-
-# interpolate cols
+# interpolate columns
 def get_col_val(i,j):
     dp = get_datapoints_col(i,j)
     # dp = [[x1,y1][x2,y2]]
+    x = i               # i -> row
     x1 = dp[0][0]
     x2 = dp[1][0]
-    x = i
     y1 = dp[0][1]
     y2 = dp[1][1]
     res = fcc(x1,y1,x2,y2,x)
     mat[i][j] = res
 
 
-# top to bottom; left to right
+# get closest datapoints to the current gridpoint
 def get_datapoints_row(i,j):
     dp = []
     dp.append(get_nearest_row(i,j,-1))
     dp.append(get_nearest_row(i,j,+1))
     return dp
-
 def get_datapoints_col(i,j):
     dp = []
     dp.append(get_nearest_col(i,j,-1))
@@ -80,7 +81,7 @@ def get_datapoints_col(i,j):
 
 # x, y -> point; dir -> direction 
 # change direction to check to the nearest 10
-## improved from recursion to direct computation
+## improved from recursion from previous exercise to direct computation
 def get_nearest_row(i,j,dir):
     # go up
     if dir < 0:
@@ -105,6 +106,7 @@ def fcc(x1,y1,x2,y2,x):
 
 # print initial matrix
 print(mat)
+
 # record time before interpolation
 time_before = datetime.datetime.now()
 
