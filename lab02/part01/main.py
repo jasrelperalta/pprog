@@ -1,23 +1,10 @@
 import numpy as np
 import random
 import datetime
+import threading
 
 # prettier printing options
 np.set_printoptions(formatter={'float': '{: 0.5f}'.format})
-
-# initialize data
-n = int(input("enter size: "))
-n += 1
-dist = 10
-
-# create a zero nxn matrix
-mat = np.zeros((n,n), dtype = float)
-
-# randomize elevation values for gridpoints divisible by 10
-for i in range(n):
-    for j in range(n):
-        if i % dist == 0 and j % dist == 0:
-            mat[i][j] = random.uniform(0.0, 1000.0)
 
 # for given example in exer file
 # mat[0][0] = 200
@@ -39,6 +26,24 @@ def terrain_inter(mat):
                 get_col_val(i,j)
     print("\n")
 
+# get size of matrix
+def getSize():
+    n = 1
+    while (n % 10 != 0):
+        n = int(input("enter size of matrix: "))
+        if n % 10 != 0:
+            print('invalid size of matrix')
+    return n+1
+
+# get number of threads
+def getThreads(n):
+    n -= 1
+    t = 0
+    while (n < t) or (t == 0) or (n % t != 0):
+        t = int(input('enter number of threads: '))
+        if (n < t) or (n % t != 0):
+            print('invalid number of threads')
+    return t
 
 # dp array format:
 # dp = [[x1,y1][x2,y2]]
@@ -104,20 +109,38 @@ def get_nearest_col(i,j,dir):
 def fcc(x1,y1,x2,y2,x):
     return (y1 + (((x-x1)/(x2-x1)) * (y2-y1)))
 
-# print initial matrix
-print(mat)
+# main function
+if __name__ == "__main__":
+    # initialize data
+    n = getSize()
+    t = getThreads(n)
 
-# record time before interpolation
-time_before = datetime.datetime.now()
+    # distance between randomized values
+    dist = 10
 
-# interpolate matrix
-terrain_inter(mat)
+    # create a zero nxn matrix
+    mat = np.zeros((n,n), dtype = float)
 
-# record time after interpolation
-time_after = datetime.datetime.now()
+    # randomize elevation values for gridpoints divisible by 10
+    for i in range(n):
+        for j in range(n):
+            if i % dist == 0 and j % dist == 0:
+                mat[i][j] = random.uniform(0.0, 1000.0)
 
-# print interpolation time
-print(time_after-time_before)
+    # print initial matrix
+    print(mat)
 
-# print resulting matrix
-print(mat)
+    # record time before interpolation
+    time_before = datetime.datetime.now()
+
+    # interpolate matrix
+    terrain_inter(mat)
+
+    # record time after interpolation
+    time_after = datetime.datetime.now()
+
+    # print interpolation time
+    print(time_after-time_before)
+
+    # print resulting matrix
+    print(mat)
