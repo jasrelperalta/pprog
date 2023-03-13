@@ -2,9 +2,10 @@ import numpy as np
 import random
 import datetime
 import threading
+import concurrent.futures
 
 # prettier printing options
-np.set_printoptions(formatter={'float': '{: 0.5f}'.format})
+np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
 
 # for given example in exer file
 # mat[0][0] = 200
@@ -26,6 +27,33 @@ def terrain_inter(mat):
                 get_col_val(i,j)
     print("\n")
 
+# modified interpolation function
+# to run concurrently with other threads
+# from other x1 to x2's
+def terrain_inter_threaded(mat,x1,x2):
+    for i in range(0,n):
+        for j in range(x1,x2):
+            if mat[i][j] != 0:
+                continue
+            if (i % dist == 0):
+                get_row_val(i,j)
+    for i in range(0,n):
+        for j in range(x1,x2):
+            if (mat[i][j] == 0):
+                get_col_val(i,j)
+
+def get_submatrices(n,t):
+    # array of submatrices
+    sub_arr = []
+    temp = []
+    for i in range(0,n):
+        temp.append(i)
+        if (len(temp) == (n-1) / t):
+            sub_arr.append(temp)
+            temp = []
+
+    return sub_arr
+
 # get size of matrix
 def getSize():
     n = 1
@@ -39,6 +67,9 @@ def getSize():
 def getThreads(n):
     n -= 1
     t = 0
+    # n size should be less than t threads
+    # t threads should not be 0
+    # n size should be divisible by t threads
     while (n < t) or (t == 0) or (n % t != 0):
         t = int(input('enter number of threads: '))
         if (n < t) or (n % t != 0):
@@ -63,7 +94,7 @@ def get_row_val(i,j):
 def get_col_val(i,j):
     dp = get_datapoints_col(i,j)
     # dp = [[x1,y1][x2,y2]]
-    x = i               # i -> row
+    x = i               # i -> col
     x1 = dp[0][0]
     x2 = dp[1][0]
     y1 = dp[0][1]
@@ -131,16 +162,54 @@ if __name__ == "__main__":
     print(mat)
 
     # record time before interpolation
-    time_before = datetime.datetime.now()
+    time_before_serial = datetime.datetime.now()
 
     # interpolate matrix
     terrain_inter(mat)
 
     # record time after interpolation
-    time_after = datetime.datetime.now()
+    time_after_serial = datetime.datetime.now()
 
-    # print interpolation time
-    print(time_after-time_before)
 
     # print resulting matrix
     print(mat)
+
+
+    # create a zero nxn matrix
+    mat = np.zeros((n,n), dtype = float)
+
+    # randomize elevation values for gridpoints divisible by 10
+    for i in range(n):
+        for j in range(n):
+            if i % dist == 0 and j % dist == 0:
+                mat[i][j] = random.uniform(0.0, 1000.0)
+
+    # print initial matrix
+    print(mat)
+
+    threads = list()
+
+    for set in get_submatrices(n,t):
+        x1, x2 = set[0], set[-1]
+        pid = threading.Thread(target=terrain_inter_threaded, args=(mat,x1,x2))
+        threads.append(pid)
+
+    # record time before interpolation
+    time_before_parallel = datetime.datetime.now()
+
+    for pid in threads:
+        pid.start()
+
+    for pid in threads:
+        pid.join()
+
+    # record time after interpolation
+    time_after_parallel = datetime.datetime.now()
+
+
+    # print resulting matrix
+    print(mat)
+
+    # print interpolation time
+    print("serial: ",time_after_serial-time_before_serial)
+    print("parallel: ",time_after_parallel-time_before_parallel)
