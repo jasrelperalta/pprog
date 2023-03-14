@@ -1,3 +1,4 @@
+import multiprocessing
 import numpy as np
 import random
 import datetime
@@ -174,6 +175,8 @@ if __name__ == "__main__":
     # print resulting matrix
     print(mat)
 
+    print("\n\n\n")
+
 
     # create a zero nxn matrix
     mat = np.zeros((n,n), dtype = float)
@@ -191,17 +194,18 @@ if __name__ == "__main__":
 
     for set in get_submatrices(n,t):
         x1, x2 = set[0], set[-1]
-        pid = threading.Thread(target=terrain_inter_threaded, args=(mat,x1,x2))
-        threads.append(pid)
+        thread = threading.Thread(target=terrain_inter_threaded, args=(mat,x1,x2))
+        threads.append(thread)
 
     # record time before interpolation
     time_before_parallel = datetime.datetime.now()
 
-    for pid in threads:
-        pid.start()
 
-    for pid in threads:
-        pid.join()
+    for thread in threads:
+        thread.start()
+
+    for thread in threads:
+        thread.join()
 
     # record time after interpolation
     time_after_parallel = datetime.datetime.now()
