@@ -150,32 +150,32 @@ if __name__ == "__main__":
     # distance between randomized values
     dist = 10
 
-    # create a zero nxn matrix
-    mat = np.zeros((n,n), dtype = float)
+    # # create a zero nxn matrix
+    # mat = np.zeros((n,n), dtype = float)
 
-    # randomize elevation values for gridpoints divisible by 10
-    for i in range(n):
-        for j in range(n):
-            if i % dist == 0 and j % dist == 0:
-                mat[i][j] = random.uniform(0.0, 1000.0)
+    # # randomize elevation values for gridpoints divisible by 10
+    # for i in range(n):
+    #     for j in range(n):
+    #         if i % dist == 0 and j % dist == 0:
+    #             mat[i][j] = random.uniform(0.0, 1000.0)
 
-    # print initial matrix
-    print(mat)
+    # # print initial matrix
+    # print(mat)
 
-    # record time before interpolation
-    time_before_serial = datetime.datetime.now()
+    # # record time before serial interpolation
+    # time_before_serial = datetime.datetime.now()
 
-    # interpolate matrix
-    terrain_inter(mat)
+    # # interpolate matrix
+    # terrain_inter(mat)
 
-    # record time after interpolation
-    time_after_serial = datetime.datetime.now()
+    # # record time after serial interpolation
+    # time_after_serial = datetime.datetime.now()
 
 
-    # print resulting matrix
-    print(mat)
+    # # print resulting matrix
+    # print(mat)
 
-    print("\n\n\n")
+    # print("\n\n\n")
 
 
     # create a zero nxn matrix
@@ -197,7 +197,7 @@ if __name__ == "__main__":
         thread = threading.Thread(target=terrain_inter_threaded, args=(mat,x1,x2))
         threads.append(thread)
 
-    # record time before interpolation
+    # record time before threaded interpolation
     time_before_parallel = datetime.datetime.now()
 
 
@@ -207,7 +207,7 @@ if __name__ == "__main__":
     for thread in threads:
         thread.join()
 
-    # record time after interpolation
+    # record time after threaded interpolation
     time_after_parallel = datetime.datetime.now()
 
 
@@ -215,5 +215,5 @@ if __name__ == "__main__":
     print(mat)
 
     # print interpolation time
-    print("serial: ",time_after_serial-time_before_serial)
+    # print("serial: ",time_after_serial-time_before_serial)
     print("parallel: ",time_after_parallel-time_before_parallel)
