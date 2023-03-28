@@ -1,9 +1,7 @@
-import multiprocessing
 import numpy as np
 import random
 import datetime
 import threading
-import concurrent.futures
 
 # prettier printing options
 np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
