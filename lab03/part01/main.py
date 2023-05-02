@@ -14,22 +14,22 @@ np.set_printoptions(linewidth=1000, formatter={'float': '{: 0.0f}'.format})
 
 
 # interpolate function
-def terrain_inter(mat,x1,x2):
+def terrain_inter_multithreading(mat,x1,x2):
     for i in range(0,n):
-        for j in range(x1,x2):
+        for j in range(x1,x2+2):
             if mat[i][j] != 0:
                 continue
             if (i % dist == 0):
                 get_row_val(i,j)
     for i in range(0,n):
-        for j in range(x1,x2):
+        for j in range(x1,x2+2):
             if (mat[i][j] == 0):
                 get_col_val(i,j)
 
 # modified interpolation function
 # to run concurrently with other threads
 # from other x1 to x2's
-def terrain_inter_parallel(mat,x1,x2):
+def terrain_inter_multiprocessing(mat,x1,x2):
     for i in range(0,n):
         for j in range(x1,x2+2):
             if mat[i][j] != 0:
@@ -176,11 +176,11 @@ if __name__ == "__main__":
 
     for set in get_submatrices(n,t):
         x1, x2 = set[0], set[-1]
-        thread = threading.Thread(target=terrain_inter, args=(mat,x1,x2))
+        thread = threading.Thread(target=terrain_inter_multithreading, args=(mat,x1,x2))
         threads.append(thread)
 
     # record time before threaded interpolation
-    time_before_serial = datetime.datetime.now()
+    time_before_multithreading = datetime.datetime.now()
 
 
     for thread in threads:
@@ -190,7 +190,7 @@ if __name__ == "__main__":
         thread.join()
 
     # record time after threaded interpolation
-    time_after_serial = datetime.datetime.now()
+    time_after_multithreading = datetime.datetime.now()
     # print resulting matrix
     print(mat)
 
@@ -213,11 +213,11 @@ if __name__ == "__main__":
 
     for set in get_submatrices(n,t):
         x1, x2 = set[0], set[-1]
-        process = Process(target=terrain_inter_parallel, args=(mat,x1,x2))
+        process = Process(target=terrain_inter_multiprocessing, args=(mat,x1,x2))
         processes.append(process)
 
     # record time before threaded interpolation
-    time_before_parallel = datetime.datetime.now()
+    time_before_multiprocessing = datetime.datetime.now()
 
 
     for process in processes:
@@ -227,12 +227,12 @@ if __name__ == "__main__":
         process.join()
 
     # record time after threaded interpolation
-    time_after_parallel = datetime.datetime.now()
+    time_after_multiprocessing = datetime.datetime.now()
 
 
     # print resulting matrix
     print(mat)
 
     # print interpolation time
-    print("multithreading: ",time_after_serial-time_before_serial)
-    print("multiprocessing: ",time_after_parallel-time_before_parallel)
+    print("multithreading: ",time_after_multithreading-time_before_multithreading)
+    print("multiprocessing: ",time_after_multiprocessing-time_before_multiprocessing)
