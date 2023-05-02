@@ -4,7 +4,7 @@ import datetime
 import threading
 
 # prettier printing options
-np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
+np.set_printoptions(linewidth=1000, formatter={'float': '{: 0.0f}'.format})
 
 # for given example in exer file
 # mat[0][0] = 200
@@ -31,13 +31,13 @@ def terrain_inter(mat):
 # from other x1 to x2's
 def terrain_inter_threaded(mat,x1,x2):
     for i in range(0,n):
-        for j in range(x1,x2):
+        for j in range(x1,x2+2):
             if mat[i][j] != 0:
                 continue
             if (i % dist == 0):
                 get_row_val(i,j)
     for i in range(0,n):
-        for j in range(x1,x2):
+        for j in range(x1,x2+2):
             if (mat[i][j] == 0):
                 get_col_val(i,j)
 

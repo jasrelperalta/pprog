@@ -9,7 +9,8 @@ from multiprocessing import Process
 print("This machine has", os.cpu_count(),"number of CPUs")
 
 # prettier printing options
-np.set_printoptions(formatter={'float': '{: 0.3f}'.format})
+np.set_printoptions(linewidth=1000, formatter={'float': '{: 0.0f}'.format})
+
 
 
 # interpolate function
@@ -30,13 +31,13 @@ def terrain_inter(mat,x1,x2):
 # from other x1 to x2's
 def terrain_inter_parallel(mat,x1,x2):
     for i in range(0,n):
-        for j in range(x1,x2):
+        for j in range(x1,x2+2):
             if mat[i][j] != 0:
                 continue
             if (i % dist == 0):
                 get_row_val(i,j)
     for i in range(0,n):
-        for j in range(x1,x2):
+        for j in range(x1,x2+2):
             if (mat[i][j] == 0):
                 get_col_val(i,j)
 
@@ -235,7 +236,3 @@ if __name__ == "__main__":
     # print interpolation time
     print("multithreading: ",time_after_serial-time_before_serial)
     print("multiprocessing: ",time_after_parallel-time_before_parallel)
-
-
-    # 509 max
-    # why the fuck is it 509??

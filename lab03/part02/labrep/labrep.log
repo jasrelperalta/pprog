@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.3.25)  2 MAY 2023 20:49
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2023.3.25)  2 MAY 2023 21:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/home/jas/Documents/cmsc180/pprog/lab02/part02/labrep/labreport.tex
-(/home/jas/Documents/cmsc180/pprog/lab02/part02/labrep/labreport.tex
+**/home/jas/Documents/cmsc180/pprog/lab03/part02/labrep/labrep.tex
+(/home/jas/Documents/cmsc180/pprog/lab03/part02/labrep/labrep.tex
 LaTeX2e <2021-11-15> patch level 1
 L3 programming layer <2022-01-21> (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
@@ -356,12 +356,12 @@ Package: blx-case-expl3 2022/02/02 v3.17 expl3 case changing code for biblatex
 ))
 \@quotelevel=\count399
 \@quotereset=\count400
- (./labreport.aux
+ (./labrep.aux
 
 LaTeX Warning: Label `table' multiply defined.
 
 )
-\openout1 = `labreport.aux'.
+\openout1 = `labrep.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
 LaTeX Font Info:    ... okay on input line 21.
@@ -440,11 +440,11 @@ File: english.lbx 2022/02/02 v3.17 biblatex localization (PK/MW)
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout3 = `labreport.bcf'.
+\openout3 = `labrep.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'labreport.bbl' found.
- (./labreport.bbl)
+Package biblatex Info: ... file 'labrep.bbl' found.
+ (./labrep.bbl)
 Package biblatex Info: Reference section=0 on input line 21.
 Package biblatex Info: Reference segment=0 on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -460,69 +460,81 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-<chart01.png, id=13, 840.13875pt x 452.69125pt>
+<chart01.png, id=13, 687.56876pt x 386.44376pt>
 File: chart01.png Graphic file (type png)
 <use chart01.png>
-Package pdftex.def Info: chart01.png  used on input line 63.
-(pdftex.def)             Requested size: 375.80544pt x 202.49345pt.
- [2 <./chart01.png>]
-<chart02.png, id=21, 819.06pt x 460.72125pt>
-File: chart02.png Graphic file (type png)
-<use chart02.png>
-Package pdftex.def Info: chart02.png  used on input line 89.
-(pdftex.def)             Requested size: 375.80544pt x 211.39304pt.
- [3]
-Underfull \hbox (badness 10000) in paragraph at lines 99--102
-
- []
-
-[4 <./chart02.png>] [5] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
+Package pdftex.def Info: chart01.png  used on input line 65.
+(pdftex.def)             Requested size: 375.80544pt x 211.21797pt.
+ [2] [3 <./chart01.png>]
+<table01.png, id=24, 917.4275pt x 180.675pt>
+File: table01.png Graphic file (type png)
+<use table01.png>
+Package pdftex.def Info: table01.png  used on input line 96.
+(pdftex.def)             Requested size: 375.80544pt x 74.01105pt.
+<table07.png, id=25, 919.435pt x 975.645pt>
+File: table07.png Graphic file (type png)
+<use table07.png>
+Package pdftex.def Info: table07.png  used on input line 102.
+(pdftex.def)             Requested size: 375.80544pt x 398.7814pt.
+ [4 <./table01.png> <./table07.png>] [5] (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 120.
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 135.
  (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 120.
- [6]
-LaTeX Font Info:    Trying to load font information for OML+cmr on input line 185.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 135.
+
+Overfull \hbox (4.2498pt too wide) in paragraph at lines 135--139
+[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[6]
+LaTeX Font Info:    Trying to load font information for OML+cmr on input line 195.
  (/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 185.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 195.
 LaTeX Font Info:    Font shape `OML/cmr/m/it' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 197.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 219.
  [7] [8]
-LaTeX Font Info:    Font shape `OMS/cmr/m/it' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 289.
-
-Overfull \hbox (46.25023pt too wide) in paragraph at lines 308--309
+Overfull \hbox (82.2506pt too wide) in paragraph at lines 302--303
 [][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[9] [10] (./labreport.aux)
+[9]
+Overfull \hbox (40.25017pt too wide) in paragraph at lines 339--340
+[][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (64.25041pt too wide) in paragraph at lines 361--362
+[][][][][][][][][][][][][][][] 
+ []
+
+[10] (./labrep.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package logreq Info: Writing requests to 'labreport.run.xml'.
-\openout1 = `labreport.run.xml'.
+Package logreq Info: Writing requests to 'labrep.run.xml'.
+\openout1 = `labrep.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 11952 strings out of 480171
- 217237 string characters out of 5894489
- 971397 words of memory out of 5000000
- 29800 multiletter control sequences out of 15000+600000
+ 11970 strings out of 480171
+ 217488 string characters out of 5894489
+ 975354 words of memory out of 5000000
+ 29817 multiletter control sequences out of 15000+600000
  475388 words of font info for 48 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 60i,18n,68p,1152b,1735s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,17n,68p,793b,1735s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/jas/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcti1000.600pk> </home/jas/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on labreport.pdf (10 pages, 200515 bytes).
+Output written on labrep.pdf (10 pages, 452497 bytes).
 PDF statistics:
- 109 PDF objects out of 1000 (max. 8388607)
+ 111 PDF objects out of 1000 (max. 8388607)
  66 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
