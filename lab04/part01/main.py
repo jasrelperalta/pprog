@@ -1,8 +1,11 @@
 import numpy as np
 import random
 import datetime
-import os
+import help
 import socket
+
+# TODO: use threads to connect to multiple slaves
+# use this https://stackoverflow.com/questions/10810249/python-socket-multiple-clients
 
 # prettier printing options
 np.set_printoptions(linewidth=1000, formatter={'float': '{: 0.0f}'.format})
@@ -179,10 +182,12 @@ if __name__ == "__main__":
             conn, addr = s.accept()
             print('connected to', addr, i+1, 'out of', num_slaves)
             mat = matToString(mat)
-            conn.send(mat)
+            # conn.send(mat)
+            help.send_msg(conn, mat)
             print('matrix sent to', addr)
             # receive matrix
-            mat = conn.recv(8192)
+            # mat = conn.recv(8192)
+            mat = help.recv_msg(conn)
             mat = stringToMat(mat)
             print(mat)
             print('matrix received from', addr)
@@ -222,16 +227,19 @@ if __name__ == "__main__":
         s.connect((ip_address, port))
 
         # receive matrix
-        mat = s.recv(8192)
+        # mat = s.recv(8192)
+        mat = help.recv_msg(s)
         mat = stringToMat(mat)
 
         # interpolate matrix
         mat = mat.copy()
-        terrain_inter(mat,0,n)
+        # terrain_inter(mat,0,n)
+        help.start(terrain_inter, mat, 0, n)
 
         # send matrix back to master
         mat = matToString(mat)
-        s.send(mat)
+        # s.send(mat)
+        help.send_msg(s, mat)
         s.close()
 
 
