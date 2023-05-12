@@ -7,6 +7,11 @@ import socket
 # TODO: use threads to connect to multiple slaves
 # use this https://stackoverflow.com/questions/10810249/python-socket-multiple-clients
 
+# TODO: fix animation during interpolation
+
+# TODO: divide matrix into t parts
+
+
 # prettier printing options
 np.set_printoptions(linewidth=1000, formatter={'float': '{: 0.0f}'.format})
 
@@ -233,8 +238,8 @@ if __name__ == "__main__":
 
         # interpolate matrix
         mat = mat.copy()
-        # terrain_inter(mat,0,n)
-        help.start(terrain_inter, mat, 0, n)
+        terrain_inter(mat,0,n)
+        # help.start(terrain_inter, mat, 0, n)
 
         # send matrix back to master
         mat = matToString(mat)
