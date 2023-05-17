@@ -251,10 +251,6 @@ if __name__ == "__main__":
             # create queue to store results
             q = queue.Queue()
 
-
-            # start timer
-            start = datetime.datetime.now()
-
             while True:
                 # accept connections
                 conn, addr = s.accept()
@@ -262,7 +258,6 @@ if __name__ == "__main__":
 
                 # create thread
                 thread = threading.Thread(target = sendReceiveData, args = (conn, mat, indices[counter-1][0], indices[counter-1][1], q))
-                thread.start()
                 threads.append(thread)
 
                 # increment counter if acknoledgement is received from all slaves
@@ -271,6 +266,14 @@ if __name__ == "__main__":
                     print('acknowledgement received from', addr)
                 if counter == num_slaves:
                     break
+            
+            # start timer
+            print('waiting for slaves to connect...')
+            start = datetime.datetime.now()
+            
+            # run threads
+            for thread in threads:
+                thread.start()
 
             # stop timer since all slaves are connected
             end = datetime.datetime.now()
