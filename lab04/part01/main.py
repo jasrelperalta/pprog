@@ -230,8 +230,6 @@ if __name__ == "__main__":
         # start server
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         
-        # start timer
-        start = datetime.datetime.now()
 
         # counter for number of slaves connected
         counter = 0
@@ -253,6 +251,10 @@ if __name__ == "__main__":
             # create queue to store results
             q = queue.Queue()
 
+
+            # start timer
+            start = datetime.datetime.now()
+
             while True:
                 # accept connections
                 conn, addr = s.accept()
@@ -272,7 +274,7 @@ if __name__ == "__main__":
 
             # stop timer since all slaves are connected
             end = datetime.datetime.now()
-            print('time elapsed:', end-start)
+            print('time elapsed during distributing:', end-start)
             
             # wait for all threads to finish then update matrix
             print('waiting for threads to finish...')
