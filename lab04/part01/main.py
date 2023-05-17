@@ -3,14 +3,8 @@ import random
 import datetime
 import help
 import socket
-
-# TODO: use threads to connect to multiple slaves
-# use this https://stackoverflow.com/questions/10810249/python-socket-multiple-clients
-
-# TODO: fix animation during interpolation
-
-# TODO: divide matrix into t parts
-
+import threading
+import queue
 
 # prettier printing options
 np.set_printoptions(linewidth=1000, formatter={'float': '{: 0.0f}'.format})
@@ -140,9 +134,70 @@ def stringToMat(data):
     mat = np.reshape(mat, (n,n))
     return mat
 
-# create copy of matrix
-def copyMat(mat):
-    mat = np.copy(mat)
+# send and receive data from slave for each thread
+def sendReceiveData(conn, mat, start, end, queue):
+    # send data to slave
+    mat = matToString(mat)
+    help.send_msg(conn, mat)
+
+    # send start and end indices to slave
+    indices = [start, end]
+    indices = np.array(indices)
+    indices = indices.tobytes()
+    help.send_msg(conn, indices)
+    
+    # receive data from slave
+    data = help.recv_msg(conn)
+    data = stringToMat(data)
+
+    # update matrix
+    mat = data
+
+    # close connection
+    conn.close()
+
+    # return updated matrix
+    queue.put(mat)
+
+# divide matrix into t parts to be sent to t threads
+def divideMatrix(mat, t):
+    # get size of matrix
+    n = mat.shape[0]
+
+    # get number of rows per thread
+    rows = n // t
+
+    # get start and end indices for each thread
+    # if n is divisible by t
+    if n % t == 0:
+        start = 0
+        end = rows
+        indices = []
+        for i in range(t):
+            indices.append([start, end])
+            start = end
+            end += rows
+    else:
+        start = 0
+        end = rows + (n % t)
+        indices = []
+        for i in range(t):
+            indices.append([start, end])
+            start = end
+            end += rows
+
+    # return indices
+    return indices
+
+# update matrix with data from slave
+def updateMatrix(mat, data):
+    # update matrix
+    for i in range(n):
+        for j in range(n):
+            if mat[i][j] == 0:
+                mat[i][j] = data[i][j]
+
+    # return updated matrix
     return mat
 
 # main function
@@ -174,45 +229,74 @@ if __name__ == "__main__":
 
         # start server
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind((ip_address, port))
-        print('server started on port', port)
-        s.listen(num_slaves)
-        print('server started listening on port', port)
         
         # start timer
         start = datetime.datetime.now()
 
-        # accept connections until all slaves are connected
-        for i in range(num_slaves):
-            conn, addr = s.accept()
-            print('connected to', addr, i+1, 'out of', num_slaves)
-            mat = matToString(mat)
-            # conn.send(mat)
-            help.send_msg(conn, mat)
-            print('matrix sent to', addr)
-            # receive matrix
-            # mat = conn.recv(8192)
-            mat = help.recv_msg(conn)
-            mat = stringToMat(mat)
-            print(mat)
-            print('matrix received from', addr)
+        # counter for number of slaves connected
+        counter = 0
+        with s:
+            # bind socket to ip address and port
+            s.bind((ip_address, port))
+            print('server started on port', port)
             
-            # close connection
-            conn.close()   
+            # start listening
+            s.listen(num_slaves)
+            print('server started listening on port', port)
+            
+            # list of threads
+            threads = []
+
+            # divide matrix into t parts
+            indices = divideMatrix(mat, num_slaves)
+            
+            # create queue to store results
+            q = queue.Queue()
+
+            while True:
+                # accept connections
+                conn, addr = s.accept()
+                print('connected to', addr)
+
+                # create thread
+                thread = threading.Thread(target = sendReceiveData, args = (conn, mat, indices[counter-1][0], indices[counter-1][1], q))
+                thread.start()
+                threads.append(thread)
+
+                # increment counter if acknoledgement is received from all slaves
+                if conn.recv(1024) == b'ack':
+                    counter += 1
+                    print('acknowledgement received from', addr)
+                if counter == num_slaves:
+                    break
+
+            # stop timer since all slaves are connected
+            end = datetime.datetime.now()
+            print('time elapsed:', end-start)
+            
+            # wait for all threads to finish then update matrix
+            print('waiting for threads to finish...')
+            for thread in threads:
+                thread.join()
+                mat = updateMatrix(mat, q.get())
+                      
 
         # print matrix
         print(mat)
 
         # stop server
         s.close()
+
+        # stop another timer
+        end = datetime.datetime.now()
+        print('time elapsed w/ interpolation:', end-start)
+
+        # print message
         print('server stopped listening on port', port)
         print('server closed')
          
 
 
-        # stop timer
-        end = datetime.datetime.now()
-        print('time elapsed:', end-start)
 
 
     # slave instance
@@ -231,20 +315,28 @@ if __name__ == "__main__":
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((ip_address, port))
 
-        # receive matrix
-        # mat = s.recv(8192)
+        # send acknowledgement to master
+        s.sendall(b'ack')
+
+        # receive matrix from master
         mat = help.recv_msg(s)
         mat = stringToMat(mat)
 
+        # get start and end indices for slave
+        indices = help.recv_msg(s)
+        indices = np.frombuffer(indices, int)
+        indices = np.reshape(indices, (2,1))
+        start = int(indices[0])
+        end = int(indices[1])
+
+
         # interpolate matrix
-        mat = mat.copy()
-        terrain_inter(mat,0,n)
-        # help.start(terrain_inter, mat, 0, n)
+        print("interpolating from ", start, " to ", end)
+        terrain_inter(mat, start, end)
+        print(mat)
 
         # send matrix back to master
         mat = matToString(mat)
-        # s.send(mat)
         help.send_msg(s, mat)
         s.close()
-
 
