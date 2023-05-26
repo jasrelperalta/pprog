@@ -250,31 +250,34 @@ if __name__ == "__main__":
             
             # create queue to store results
             q = queue.Queue()
+            counter_again = 0
 
             while True:
+
                 # accept connections
                 conn, addr = s.accept()
                 print('connected to', addr)
 
+                #start timer
+                if counter_again == 0:
+                    print('start timer')
+                    start = datetime.datetime.now()
+                    counter_again = 1
+
                 # create thread
                 thread = threading.Thread(target = sendReceiveData, args = (conn, mat, indices[counter-1][0], indices[counter-1][1], q))
                 threads.append(thread)
+                thread.start()
+                print("thread started...", counter)
 
                 # increment counter if acknoledgement is received from all slaves
                 if conn.recv(1024) == b'ack':
                     counter += 1
                     print('acknowledgement received from', addr)
+
                 if counter == num_slaves:
                     break
             
-            # start timer
-            print('waiting for slaves to connect...')
-            start = datetime.datetime.now()
-            
-            # run threads
-            for thread in threads:
-                thread.start()
-
             # stop timer since all slaves are connected
             end = datetime.datetime.now()
             print('time elapsed during distributing:', end-start)
@@ -320,12 +323,15 @@ if __name__ == "__main__":
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((ip_address, port))
 
+
         # send acknowledgement to master
         s.sendall(b'ack')
-
+        
         # receive matrix from master
         mat = help.recv_msg(s)
         mat = stringToMat(mat)
+
+
 
         # get start and end indices for slave
         indices = help.recv_msg(s)
