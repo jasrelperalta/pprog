@@ -6,6 +6,9 @@ import socket
 import threading
 import queue
 
+# global counter of received acknowledgements
+COUNTER_ACK = 0
+
 # prettier printing options
 np.set_printoptions(linewidth=1000, formatter={'float': '{: 0.0f}'.format})
 
@@ -145,7 +148,13 @@ def sendReceiveData(conn, mat, start, end, queue):
     indices = np.array(indices)
     indices = indices.tobytes()
     help.send_msg(conn, indices)
-    
+
+    if conn.recv(1024) == b'ack':
+        global COUNTER_ACK
+        COUNTER_ACK += 1
+        print('acknowledgement received from', conn.getpeername())
+
+
     # receive data from slave
     data = help.recv_msg(conn)
     data = stringToMat(data)
@@ -252,8 +261,7 @@ if __name__ == "__main__":
             q = queue.Queue()
             counter_again = 0
 
-            while True:
-
+            while True and (COUNTER_ACK != num_slaves):
                 # accept connections
                 conn, addr = s.accept()
                 print('connected to', addr)
@@ -268,16 +276,16 @@ if __name__ == "__main__":
                 thread = threading.Thread(target = sendReceiveData, args = (conn, mat, indices[counter-1][0], indices[counter-1][1], q))
                 threads.append(thread)
                 thread.start()
-                print("thread started...", counter)
-
-                # increment counter if acknoledgement is received from all slaves
-                if conn.recv(1024) == b'ack':
-                    counter += 1
-                    print('acknowledgement received from', addr)
-
+                print("thread", counter, "started running")
+                counter += 1
+                
                 if counter == num_slaves:
                     break
             
+            # keep looping until all acknowledges are received
+            while COUNTER_ACK != num_slaves:
+                continue
+
             # stop timer since all slaves are connected
             end = datetime.datetime.now()
             print('time elapsed during distributing:', end-start)
@@ -324,8 +332,6 @@ if __name__ == "__main__":
         s.connect((ip_address, port))
 
 
-        # send acknowledgement to master
-        s.sendall(b'ack')
         
         # receive matrix from master
         mat = help.recv_msg(s)
@@ -339,6 +345,9 @@ if __name__ == "__main__":
         indices = np.reshape(indices, (2,1))
         start = int(indices[0])
         end = int(indices[1])
+
+        # send acknowledgement to master
+        s.sendall(b'ack')
 
 
         # interpolate matrix
