@@ -1,0 +1,41 @@
+
+table 01
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[]
+\begin{tabular}{|c|c|ccc|c|}
+\hline
+\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}n\\ (size of matrix)\end{tabular}}} & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}t\\ (number of slaves)\end{tabular}}} & \multicolumn{3}{c|}{\textbf{time elapsed}}                                                 & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}average runtimes\\ (in seconds)\end{tabular}}} \\ \cline{3-5}
+                                                                                       &                                                                                          & \multicolumn{1}{c|}{\textbf{run 1}} & \multicolumn{1}{c|}{\textbf{run 2}} & \textbf{run 3} &                                                                                                   \\ \hline
+1000                                                                                   & 2                                                                                        & \multicolumn{1}{c|}{0.546964}       & \multicolumn{1}{c|}{0.426787}       & 0.451198       & 0.474983                                                                                          \\ \hline
+1000                                                                                   & 4                                                                                        & \multicolumn{1}{c|}{7.68691}        & \multicolumn{1}{c|}{6.381048}       & 3.465593       & 5.844517                                                                                          \\ \hline
+1000                                                                                   & 8                                                                                        & \multicolumn{1}{c|}{13.918114}      & \multicolumn{1}{c|}{13.540195}      & 17.092937      & 14.85041533                                                                                       \\ \hline
+1000                                                                                   & 16                                                                                       & \multicolumn{1}{c|}{33.997901}      & \multicolumn{1}{c|}{28.528515}      & 33.216317      & 31.91424433                                                                                       \\ \hline
+4000                                                                                   & 2                                                                                        & \multicolumn{1}{c|}{0.503187}       & \multicolumn{1}{c|}{0.559047}       & 0.606459       & 0.556231                                                                                          \\ \hline
+4000                                                                                   & 4                                                                                        & \multicolumn{1}{c|}{6.70034}        & \multicolumn{1}{c|}{5.622571}       & 5.158803       & 5.827238                                                                                          \\ \hline
+4000                                                                                   & 8                                                                                        & \multicolumn{1}{c|}{15.856215}      & \multicolumn{1}{c|}{12.655223}      & 14.039135      & 14.18352433                                                                                       \\ \hline
+4000                                                                                   & 16                                                                                       & \multicolumn{1}{c|}{36.258801}      & \multicolumn{1}{c|}{33.189858}      & 33.621938      & 34.35686567                                                                                       \\ \hline
+8000                                                                                   & 2                                                                                        & \multicolumn{1}{c|}{0.986576}       & \multicolumn{1}{c|}{1.009564}       & 0.987448       & 0.9945293333                                                                                      \\ \hline
+8000                                                                                   & 4                                                                                        & \multicolumn{1}{c|}{5.468988}       & \multicolumn{1}{c|}{7.02219}        & 6.028941       & 6.173373                                                                                          \\ \hline
+8000                                                                                   & 8                                                                                        & \multicolumn{1}{c|}{14.665985}      & \multicolumn{1}{c|}{25.566632}      & 13.577927      & 17.936848                                                                                         \\ \hline
+8000                                                                                   & 16                                                                                       & \multicolumn{1}{c|}{38.402711}      & \multicolumn{1}{c|}{41.006283}      & 38.447953      & 39.285649                                                                                         \\ \hline
+\end{tabular}
+\end{table}
+
+table 02
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[]
+\begin{tabular}{|c|c|ccc|c|}
+\hline
+\multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}n\\ (size of matrix)\end{tabular}}} & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}t\\ (number of slaves)\end{tabular}}} & \multicolumn{3}{c|}{\textbf{time elapsed}}                                                 & \multirow{2}{*}{\textbf{\begin{tabular}[c]{@{}c@{}}average runtimes\\ (in seconds)\end{tabular}}} \\ \cline{3-5}
+                                                                                       &                                                                                          & \multicolumn{1}{c|}{\textbf{run 1}} & \multicolumn{1}{c|}{\textbf{run 2}} & \textbf{run 3} &                                                                                                   \\ \hline
+                            &                             & \multicolumn{1}{c|}{\textbf{run 1}} & \multicolumn{1}{c|}{\textbf{run 2}} & \textbf{run 3} &                                   \\ \hline
+1000                        & 2                           & \multicolumn{1}{c|}{2.381978}       & \multicolumn{1}{c|}{1.258513}       & 1.362663       & 1.667718                          \\ \hline
+1000                        & 4                           & \multicolumn{1}{c|}{4.682795}       & \multicolumn{1}{c|}{2.638427}       & 5.022053       & 4.114425                          \\ \hline
+4000                        & 2                           & \multicolumn{1}{c|}{16.474031}      & \multicolumn{1}{c|}{12.706133}      & 17.209705      & 15.46328967                       \\ \hline
+4000                        & 4                           & \multicolumn{1}{c|}{31.801009}      & \multicolumn{1}{c|}{23.391966}      & 31.282571      & 28.825182                         \\ \hline
+8000                        & 2                           & \multicolumn{1}{c|}{46.978968}      & \multicolumn{1}{c|}{45.075998}      & 51.603052      & 47.886006                         \\ \hline
+8000                        & 4                           & \multicolumn{1}{c|}{119.868819}     & \multicolumn{1}{c|}{122.850237}     & 125.255857     & 122.6583043                       \\ \hline
+\end{tabular}
+\end{table}
